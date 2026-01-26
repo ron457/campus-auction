@@ -11,14 +11,23 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
                 .allowedOrigins(
-                    "https://starlit-pegasus-589186.netlify.app",
-                    "http://localhost:5500",
-                    "http://127.0.0.1:5500"
+                    "https://starlit-pegasus-589186.netlify.app",  // ✅ Production Netlify
+                    "http://localhost:5500",                        // ✅ Local dev
+                    "http://127.0.0.1:5500"                        // ✅ Local dev alternative
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .exposedHeaders("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowedHeaders(
+                    "Origin",
+                    "Content-Type",
+                    "Accept",
+                    "Authorization",
+                    "X-Requested-With"
+                )
+                .exposedHeaders(
+                    "Access-Control-Allow-Origin",
+                    "Access-Control-Allow-Credentials"
+                )
                 .allowCredentials(true)
-                .maxAge(3600);
+                .maxAge(3600);  // Cache preflight for 1 hour
     }
 }
