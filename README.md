@@ -115,7 +115,7 @@ campus-auction/
 
 🔌 API Endpoints
 
-### Authentication
+Authentication
 POST /api/auth/register - Register new user
 POST /api/auth/login - Login user (returns JWT)
 GET /api/auth/profile - Get current user profile
@@ -129,7 +129,6 @@ PUT /api/auctions/{id} - Update auction
 DELETE /api/auctions/{id} - Delete auction
 GET /api/auctions/my - Get user's created auctions
 
-text
 
 Bids
 GET /api/bids/auction/{id} - Get all bids for an auction
