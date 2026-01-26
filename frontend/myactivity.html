@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Activity - KIIT Auction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 3rem;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+            position: sticky !important;
+            top: 0;
+            z-index: 1050;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: white !important;
+        }
+        
+        .navbar-nav .text-light {
+            color: white !important;
+            font-weight: 600;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        .navbar-toggler {
+            border: 2px solid white;
+            padding: 0.4rem 0.6rem;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link {
+                padding: 0.7rem 1rem !important;
+            }
+        }
+        
+        /* Page Content */
+        .page-header {
+            color: white;
+            padding: 40px 0 30px 0;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .profile-card h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-card p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        .tabs-section {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-pills .nav-link {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .nav-pills .nav-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .auction-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+        
+        .auction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .auction-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .auction-card p {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .info-value {
+            color: #667eea;
+            font-weight: 700;
+        }
+        
+        .btn-view {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .btn-view:hover {
+            opacity: 0.9;
+            color: white;
+        }
+        
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .btn-delete:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .empty-state {
+            background: white;
+            border-radius: 20px;
+            padding: 4rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .empty-state h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">🔨 KIIT Auction</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation injected by navbar.js -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📊 My Activity</h1>
+            <p>Track your bids and manage your auctions</p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <h2>👤 <span id="userName">Loading...</span></h2>
+            <p id="userEmail">Loading...</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-section">
+            <ul class="nav nav-pills" id="activityTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="bids-tab" data-bs-toggle="pill" data-bs-target="#bids" type="button">
+                        📊 My Bids <span class="badge bg-primary" id="bidsCount">0</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="auctions-tab" data-bs-toggle="pill" data-bs-target="#auctions" type="button">
+                        🔨 My Auctions <span class="badge bg-primary" id="auctionsCount">0</span>
+                    </button>
+                </li>
+                <!-- ✅ NEW: Wins Tab -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="wins-tab" data-bs-toggle="pill" data-bs-target="#wins" type="button">
+                        🏆 Wins <span class="badge bg-success" id="winsCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- My Bids Tab -->
+            <div class="tab-pane fade" id="bids">
+                <div id="bidsContainer"></div>
+                <div id="noBidsMessage" class="empty-state" style="display: none;">
+                    <h4>📭 No Bids Yet</h4>
+                    <p>You haven't placed any bids yet. Start bidding on auctions!</p>
+                    <a href="auctions.html" class="btn btn-view">Browse Auctions</a>
+                </div>
+            </div>
+
+            <!-- My Auctions Tab -->
+            <div class="tab-pane fade show active" id="auctions">
+                <div id="auctionsContainer"></div>
+                <div id="noAuctionsMessage" class="empty-state" style="display: none;">
+                    <h4>📭 No Auctions Yet</h4>
+                    <p>You haven't created any auctions yet. Start selling!</p>
+                    <a href="create-auction.html" class="btn btn-view">Create Auction</a>
+                </div>
+            </div>
+
+            <!-- ✅ NEW: Auctions Won Tab -->
+            <div class="tab-pane fade" id="wins">
+                <div id="winsContainer"></div>
+                <div id="noWinsMessage" class="empty-state" style="display: none;">
+                    <h4>🏆 No Wins Yet</h4>
+                    <p>You haven't won any auctions yet. Keep bidding!</p>
+                    <a href="auctions.html" class="btn btn-view">Browse Auctions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">&copy; 2026 KIIT Campus Auction Platform | Built by Rhitav Gangopadhyay</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // Check authentication
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!user) {
+            alert('Please login first!');
+            window.location.href = 'login.html';
+        }
+        
+        // Display user info
+        console.log('Logged in user:', user);
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userEmail').textContent = user.email;
+        
+        // ========================================
+        // LOAD MY AUCTIONS
+        // ========================================
+        async function loadMyAuctions() {
+            try {
+                console.log('🔍 Loading auctions for:', user.email);
+                
+                const allAuctions = await api.getAuctions();
+                console.log('📦 Total auctions from API:', allAuctions.length);
+                
+                const myAuctions = allAuctions.filter(a => {
+                    const hasValidSeller = a.sellerEmail && a.sellerEmail !== null;
+                    const isMyAuction = a.sellerEmail === user.email;
+                    return hasValidSeller && isMyAuction;
+                });
+                
+                console.log('✅ My valid auctions count:', myAuctions.length);
+                
+                document.getElementById('auctionsCount').textContent = myAuctions.length;
+                
+                const container = document.getElementById('auctionsContainer');
+                const noMessage = document.getElementById('noAuctionsMessage');
+                
+                if (myAuctions.length === 0) {
+                    noMessage.style.display = 'block';
+                    container.innerHTML = '';
+                    return;
+                }
+                
+                noMessage.style.display = 'none';
+                
+                myAuctions.sort((a, b) => {
+                    if (a.status === 'ACTIVE' && b.status !== 'ACTIVE') return -1;
+                    if (a.status !== 'ACTIVE' && b.status === 'ACTIVE') return 1;
+                    return new Date(b.startTime) - new Date(a.startTime);
+                });
+                
+                container.innerHTML = myAuctions.map(auction => {
+                    let statusClass = 'bg-secondary';
+                    let statusText = auction.status;
+                    let statusIcon = '';
+                    
+                    if (auction.status === 'ACTIVE') {
+                        statusClass = 'bg-success';
+                        statusIcon = '🟢';
+                    } else if (auction.status === 'COMPLETED') {
+                        statusClass = 'bg-primary';
+                        statusIcon = '✅';
+                        statusText = 'COMPLETED';
+                    } else if (auction.status === 'CANCELLED') {
+                        statusClass = 'bg-danger';
+                        statusIcon = '❌';
+                    }
+                    
+                    return `
+                        <div class="auction-card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h4>${auction.title}</h4>
+                                <span class="badge ${statusClass}">${statusIcon} ${statusText}</span>
+                            </div>
+                            <p>${auction.description}</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label">Starting Price:</span>
+                                    <span class="info-value">₹${auction.startingPrice}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Current Bid:</span>
+                                    <span class="info-value">₹${auction.currentHighest || auction.startingPrice}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Total Bids:</span>
+                                    <span class="info-value">${auction.bidCount || 0}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">${auction.status === 'COMPLETED' ? 'Ended:' : 'Time Left:'}</span>
+                                    <span class="info-value">${calculateTimeLeft(auction.endTime)}</span>
+                                </div>
+                            </div>
+                            
+                            ${auction.status === 'COMPLETED' ? `
+                                <div class="alert alert-info mt-3">
+                                    <strong>✅ Auction Completed!</strong><br>
+                                    Final Price: ₹${auction.currentHighest || auction.startingPrice} | 
+                                    Total Bids: ${auction.bidCount || 0}
+                                </div>
+                            ` : ''}
+                            
+                            <div class="mt-3">
+                                <button class="btn-view" onclick="viewAuctionDetails(${auction.id})">
+                                    📊 View Details & Bids
+                                </button>
+                                ${auction.status === 'ACTIVE' ? `
+                                    <button class="btn-delete" onclick="cancelAuction(${auction.id})">
+                                        ❌ Cancel Auction
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                console.log('✅ Auctions rendered successfully');
+                
+            } catch (error) {
+                console.error('❌ Error loading auctions:', error);
+                document.getElementById('auctionsContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        <strong>Error loading auctions!</strong><br>
+                        ${error.message}<br>
+                        <button class="btn btn-primary mt-2" onclick="loadMyAuctions()">🔄 Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        async function cancelAuction(id) {
+            if (!confirm('⚠️ Are you sure you want to cancel this auction?\n\nThis action cannot be undone!')) return;
+            
+            try {
+                await api.deleteAuction(id);
+                alert('✅ Auction cancelled successfully!');
+                loadMyAuctions();
+            } catch (error) {
+                alert('❌ Error cancelling auction: ' + error.message);
+            }
+        }
+
+        // ========================================
+        // LOAD MY BIDS
+        // ========================================
+        async function loadMyBids() {
+            try {
+                console.log('🔍 Loading bids for:', user.email);
+                
+                const allAuctions = await api.getAuctions();
+                let myBids = [];
+                
+                for (const auction of allAuctions) {
+                    try {
+                        const bids = await api.getBids(auction.id);
+                        const userBids = bids.filter(b => b.bidderEmail === user.email);
+                        
+                        userBids.forEach(bid => {
+                            myBids.push({
+                                ...bid,
+                                auctionTitle: auction.title,
+                                auctionId: auction.id,
+                                auctionStatus: auction.status
+                            });
+                        });
+                    } catch (error) {
+                        console.log(`No bids for auction ${auction.id}`);
+                    }
+                }
+                
+                console.log('✅ My bids count:', myBids.length);
+                
+                document.getElementById('bidsCount').textContent = myBids.length;
+                
+                const container = document.getElementById('bidsContainer');
+                const noMessage = document.getElementById('noBidsMessage');
+                
+                if (myBids.length === 0) {
+                    noMessage.style.display = 'block';
+                    container.innerHTML = '';
+                    return;
+                }
+                
+                noMessage.style.display = 'none';
+                
+                myBids.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                container.innerHTML = myBids.map(bid => `
+                    <div class="auction-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h4>${bid.auctionTitle}</h4>
+                            <span class="badge ${bid.auctionStatus === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}">
+                                ${bid.auctionStatus}
+                            </span>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Your Bid:</span>
+                                <span class="info-value">₹${bid.amount}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Bid Time:</span>
+                                <span class="info-value">${new Date(bid.timestamp).toLocaleString()}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn-view" onclick="viewAuctionDetails(${bid.auctionId})">
+                                View Auction
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('❌ Error loading bids:', error);
+                document.getElementById('bidsContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        Failed to load bids. <button class="btn btn-sm btn-primary" onclick="loadMyBids()">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ========================================
+        // ✅ NEW: LOAD MY WINS
+        // ========================================
+        async function loadMyWins() {
+            try {
+                console.log('🏆 Loading won auctions for:', user.email);
+                
+                const wonAuctions = await api.getAuctionsWon(user.email);
+                
+                console.log('✅ Won auctions count:', wonAuctions.length);
+                console.log('✅ Won auctions:', wonAuctions);
+                
+                document.getElementById('winsCount').textContent = wonAuctions.length;
+                
+                const container = document.getElementById('winsContainer');
+                const noMessage = document.getElementById('noWinsMessage');
+                
+                if (wonAuctions.length === 0) {
+                    console.log('ℹ️ No won auctions found');
+                    noMessage.style.display = 'block';
+                    container.innerHTML = '';
+                    return;
+                }
+                
+                noMessage.style.display = 'none';
+                
+                wonAuctions.sort((a, b) => new Date(b.endTime) - new Date(a.endTime));
+                
+                container.innerHTML = wonAuctions.map(auction => `
+                    <div class="auction-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h4>🏆 ${auction.title}</h4>
+                                <span class="badge bg-success">WON</span>
+                                <span class="badge bg-info">${auction.category}</span>
+                            </div>
+                        </div>
+                        <p>${auction.description}</p>
+                        
+                        <div class="alert alert-success mb-3">
+                            <strong>🎉 Congratulations! You won this auction!</strong><br>
+                            <small>Contact the seller to arrange pickup/payment</small>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Your Winning Bid:</span>
+                                <span class="info-value text-success">₹${auction.winningBid}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Total Bids:</span>
+                                <span class="info-value">${auction.bidCount}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Condition:</span>
+                                <span class="info-value">${auction.condition || 'Not specified'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Ended:</span>
+                                <span class="info-value">${new Date(auction.endTime).toLocaleString()}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info mt-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>📧 Seller Contact:</strong><br>
+                                    <strong>Name:</strong> ${auction.sellerName}<br>
+                                    <strong>Email:</strong> ${auction.sellerEmail}
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                    <a href="mailto:${auction.sellerEmail}?subject=Regarding ${encodeURIComponent(auction.title)} - Auction Winner" 
+                                       class="btn btn-primary btn-sm mt-2">
+                                        📧 Email Seller
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn-view" onclick="viewAuctionDetails(${auction.auctionId})">
+                                📊 View Full Details
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                console.log('✅ Won auctions rendered successfully');
+                
+            } catch (error) {
+                console.error('❌ Error loading won auctions:', error);
+                document.getElementById('winsContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        <strong>Error loading won auctions!</strong><br>
+                        ${error.message}<br>
+                        <button class="btn btn-primary mt-2" onclick="loadMyWins()">🔄 Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ========================================
+        // UTILITY FUNCTIONS
+        // ========================================
+        function calculateTimeLeft(endTime) {
+            const now = new Date().getTime();
+            const end = new Date(endTime).getTime();
+            const diff = end - now;
+            
+            if (diff <= 0) return 'Ended';
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            if (days > 0) return `${days}d ${hours}h left`;
+            return `${hours}h left`;
+        }
+        
+        function viewAuctionDetails(auctionId) {
+            window.location.href = `auctions.html`;
+        }
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 Page loaded, loading data...');
+            loadMyAuctions();
+            loadMyBids();
+            loadMyWins(); // ✅ NEW
+            
+            // Tab listeners
+            document.getElementById('bids-tab').addEventListener('click', function() {
+                console.log('🔄 Switching to Bids tab');
+                loadMyBids();
+            });
+            
+            document.getElementById('auctions-tab').addEventListener('click', function() {
+                console.log('🔄 Switching to Auctions tab');
+                loadMyAuctions();
+            });
+            
+            // ✅ NEW: Wins tab listener
+            document.getElementById('wins-tab').addEventListener('click', function() {
+                console.log('🔄 Switching to Wins tab');
+                loadMyWins();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* ========================================
+   SIMPLE & CLEAN NAVBAR
+   Minimalist design - no fancy transitions
+   ======================================== */
+
+.navbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+}
+
+/* Brand Logo */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: white !important;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 1rem !important;
+    margin: 0 0.2rem;
+}
+
+.navbar-nav .nav-link:hover {
+    color: white !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: white !important;
+}
+
+/* User Greeting */
+.navbar-nav .text-light {
+    color: white !important;
+    font-weight: 600;
+    padding: 0.5rem 1rem !important;
+}
+
+/* Hamburger Button */
+.navbar-toggler {
+    border: 2px solid white;
+    padding: 0.4rem 0.6rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Mobile Menu */
+@media (max-width: 991px) {
+    .navbar-nav .nav-link {
+        padding: 0.7rem 1rem !important;
+    }
+}

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - KIIT Auction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+            position: sticky !important;
+            top: 0;
+            z-index: 1050;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: white !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: white !important;
+        }
+        
+        .navbar-nav .text-light {
+            color: white !important;
+            font-weight: 600;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        .navbar-toggler {
+            border: 2px solid white;
+            padding: 0.4rem 0.6rem;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link {
+                padding: 0.7rem 1rem !important;
+            }
+        }
+        
+        /* Content Styles */
+        .container {
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .profile-card, .edit-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .profile-info h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .profile-info p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 50px;
+            margin-top: 25px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+        
+        .edit-card h3 {
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .stats-row {
+                gap: 30px;
+                justify-content: center;
+            }
+            
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">🔨 KIIT Auction</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation injected by navbar.js -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar" id="avatarInitial">A</div>
+                <div class="profile-info">
+                    <h2 id="profileName">Loading...</h2>
+                    <p id="profileEmail">Loading...</p>
+                    
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span class="stat-value" id="trustScore">100.0</span>
+                            <div class="stat-label">Trust Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="auctionsCreated">0</span>
+                            <div class="stat-label">Auctions</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="auctionsCompleted">0</span>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Card -->
+        <div class="edit-card">
+            <h3>📝 Edit Profile</h3>
+            
+            <div id="alertArea"></div>
+            
+    <form id="profileForm">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="fullName" class="form-label">Full Name *</label>
+                <input type="text" class="form-control" id="fullName" required>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="phone" class="form-label">Phone *</label>
+                <input type="tel" class="form-control" id="phone" required pattern="[0-9]{10}">
+                <div class="form-text">10 digit mobile number</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="branch" class="form-label">Branch/Department *</label>
+                <input type="text" class="form-control" id="branch" required 
+                    placeholder="e.g., Computer Science and Engineering">
+                <div class="form-text">Enter your branch or department</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="batch" class="form-label">Batch Year *</label>
+                <input type="text" class="form-control" id="batch" required 
+                    placeholder="e.g., 2027" pattern="[0-9]{4}">
+                <div class="form-text">Year of graduation</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="hostel" class="form-label">Hostel/Campus *</label>
+                <input type="text" class="form-control" id="hostel" required 
+                    placeholder="e.g., Campus-5, Block A">
+                <div class="form-text">Your hostel or residential campus</div>
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    💾 Update Profile
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">&copy; 2026 KIIT Campus Auction Platform | Built by Rhitav Gangopadhyay</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        // Load and display profile data
+        document.addEventListener('DOMContentLoaded', async function() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Display user info
+            document.getElementById('profileName').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('avatarInitial').textContent = user.name.charAt(0).toUpperCase();
+            
+            // Load user profile data
+            try {
+                const profile = await api.getUserProfile(user.email);
+                
+                // Populate form fields
+                document.getElementById('fullName').value = profile.name || user.name;
+                document.getElementById('phone').value = profile.phone || '';
+                document.getElementById('branch').value = profile.branch || '';
+                document.getElementById('batch').value = profile.batch || '';
+                document.getElementById('hostel').value = profile.hostel || '';
+                
+                // Load auction stats
+                const auctions = await api.getAuctions();
+                const userAuctions = auctions.filter(a => a.sellerEmail === user.email);
+                const completed = userAuctions.filter(a => a.status === 'COMPLETED');
+                
+                document.getElementById('auctionsCreated').textContent = userAuctions.length;
+                document.getElementById('auctionsCompleted').textContent = completed.length;
+                document.getElementById('trustScore').textContent = profile.trustScore || '100.0';
+                
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        });
+        
+        // Handle profile update
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const alertArea = document.getElementById('alertArea');
+            
+            const profileData = {
+                name: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                branch: document.getElementById('branch').value,
+                batch: document.getElementById('batch').value,
+                hostel: document.getElementById('hostel').value
+            };
+            
+            try {
+                await api.updateUserProfile(user.email, profileData);
+                
+                // Update localStorage
+                user.name = profileData.name;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                
+                alertArea.innerHTML = '<div class="alert alert-success">Profile updated successfully!</div>';
+                
+                // Update display
+                document.getElementById('profileName').textContent = profileData.name;
+                document.getElementById('avatarInitial').textContent = profileData.name.charAt(0).toUpperCase();
+                
+                setTimeout(() => {
+                    alertArea.innerHTML = '';
+                }, 3000);
+                
+            } catch (error) {
+                alertArea.innerHTML = '<div class="alert alert-danger">Error updating profile. Please try again.</div>';
+            }
+        });
+    </script>
+</body>
+</html>

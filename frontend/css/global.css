@@ -1,0 +1,31 @@
+/* ========================================
+   GLOBAL STYLES - Consistent Across All Pages
+   ======================================== */
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+/* Ensure dropdown menu matches background */
+.navbar-collapse {
+    background: transparent !important;
+}
+
+/* Fix mobile menu background */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: rgba(102, 126, 234, 0.95) !important;
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+}

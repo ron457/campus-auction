@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auctions - KIIT Auction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-header {
+            color: white;
+            padding: 40px 0 30px 0;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .stats-banner {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .auction-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        .auction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .category-badge {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-badge {
+            background: #10b981;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .price-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .btn-bid {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        .btn-bid:hover {
+            opacity: 0.9;
+        }
+        
+        .empty-state {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Toast animations */
+        .toast {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Bid history styles */
+        .winning-bid {
+            background: linear-gradient(135deg, #d4f8d4, #a8e6a8);
+            border-left: 4px solid #28a745;
+        }
+
+        /* Pulsing animation for urgent timers */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .badge.bg-danger {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        /* Winner Trophy Animation */
+        .trophy-animation {
+            font-size: 5rem;
+            animation: trophyBounce 1s ease-in-out infinite alternate;
+            display: inline-block;
+            filter: drop-shadow(0 10px 20px rgba(255, 215, 0, 0.5));
+        }
+
+        @keyframes trophyBounce {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        /* Confetti effect (optional) */
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            top: -10px;
+            animation: confetti-fall 3s linear;
+            z-index: 9999;
+        }
+
+        /* Modal improvements */
+        .modal-content.border-0 {
+            overflow: hidden;
+        }
+
+        .vr {
+            width: 2px;
+            min-height: 60px;
+            background: rgba(0,0,0,0.1);
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">🔨 KIIT Auction</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation injected by navbar.js -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Active Auctions</h1>
+            <p>Browse and bid on items from KIIT students</p>
+        </div>
+        
+        <!-- Stats Banner -->
+        <div class="stats-banner d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0">
+                    <span class="badge bg-success me-2">
+                        <span id="activeCount">0</span> Active
+                    </span>
+                    Auctions
+                </h4>
+            </div>
+            <a href="create-auction.html" class="btn btn-warning btn-lg fw-bold">
+                ➕ Want to Sell? Create Auction
+            </a>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="row g-3">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" 
+                               placeholder="Search auctions by title or description...">
+                        <button class="btn btn-primary" type="button" id="searchBtn">
+                            🔍 Search
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="BOOKS">Books & Notes</option>
+                        <option value="ELECTRONICS">Electronics</option>
+                        <option value="FURNITURE">Furniture</option>
+                        <option value="CLOTHING">Clothing</option>
+                        <option value="SPORTS">Sports Equipment</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-secondary w-100" id="refreshBtn">
+                        🔄 Refresh
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-secondary w-100" id="refreshBtn">
+                        🔄 Refresh
+                    </button>
+                </div>
+                <!-- NEW: Auto-refresh indicator -->
+                <div class="col-md-2">
+                    <button class="btn btn-outline-info w-100" onclick="toggleAutoRefresh()" title="Toggle auto-refresh">
+                        <span id="autoRefreshStatus">🔄 Auto: ON</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="text-center py-5" style="display: none;">
+            <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-white fs-5">Loading auctions...</p>
+        </div>
+
+        <!-- No Auctions Message -->
+        <div id="noAuctionsMessage" style="display: none;" class="empty-state">
+            <h4>No active auctions found</h4>
+            <p class="text-muted">Be the first to create one!</p>
+            <a href="create-auction.html" class="btn btn-primary btn-lg">Create Auction</a>
+        </div>
+
+        <!-- Auctions Grid -->
+        <div id="auctionsGrid" class="row g-4 mb-5">
+            <!-- Auction cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Bid Modal -->
+    <div class="modal fade" id="bidModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Place Your Bid</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalAlertArea"></div>
+                    
+                    <h6 id="modalAuctionTitle" class="mb-3"></h6>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Current Highest Bid:</label>
+                        <p class="fs-4 text-primary mb-0" id="modalCurrentBid">₹0</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Minimum Next Bid:</label>
+                        <p class="fs-5 text-muted" id="modalMinBid">₹50</p>
+                    </div>
+                    
+                    <form id="bidForm">
+                        <input type="hidden" id="bidAuctionId">
+                        
+                        <div class="mb-3">
+                            <label for="bidAmount" class="form-label">Your Bid Amount (₹) *</label>
+                            <input type="number" class="form-control form-control-lg" 
+                                id="bidAmount" required min="0" step="1">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="bidderEmail" class="form-label">Your KIIT Email</label>
+                            <input type="email" class="form-control" 
+                                id="bidderEmail" readonly 
+                                style="background-color: #e9ecef;">
+                            <small class="text-muted">Using logged-in account</small>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="placeBidBtn">
+                                Place Bid
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auction Details Modal -->
+    <div class="modal fade" id="auctionDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Auction Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Auction Information -->
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary" id="detailsTitle">Loading...</h5>
+                            <p class="card-text" id="detailsDescription"></p>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <strong>Category:</strong> 
+                                        <span class="badge bg-primary" id="detailsCategory"></span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Condition:</strong> 
+                                        <span id="detailsCondition"></span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <strong>Starting Price:</strong> 
+                                        <span class="text-success fw-bold" id="detailsStartingPrice"></span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Current Highest:</strong> 
+                                        <span class="text-danger fw-bold" id="detailsCurrentBid"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <strong>Seller:</strong> 
+                                        <span id="detailsSeller"></span>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2">
+                                        <strong>Ends:</strong> 
+                                        <span class="text-danger" id="detailsEndTime"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bid History Section -->
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">
+                                📊 Bid History 
+                                <span class="badge bg-secondary" id="totalBidsCount">0 bids</span>
+                            </h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Loading State -->
+                            <div id="bidsLoading" class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading bids...</span>
+                                </div>
+                                <p class="mt-2 text-muted">Loading bid history...</p>
+                            </div>
+
+                            <!-- No Bids State -->
+                            <div id="noBidsMessage" class="text-center py-4" style="display: none;">
+                                <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+                                <p class="text-muted mt-2">No bids placed yet</p>
+                                <small class="text-muted">Be the first to bid!</small>
+                            </div>
+
+                            <!-- Bids List -->
+                            <div id="bidsList" class="list-group list-group-flush" style="display: none; max-height: 400px; overflow-y: auto;">
+                                <!-- Bids will be inserted here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="window.openBidModalFromDetails()">
+                        Place Bid
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+   <!-- Winner Announcement Modal (UPDATED) -->
+    <div class="modal fade" id="winnerModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-body text-center p-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="mb-4" id="winnerIcon">
+                        <div class="trophy-animation">
+                            🏆
+                        </div>
+                    </div>
+                    <h2 class="text-white mb-3 fw-bold" id="winnerTitle">Auction Ended!</h2>
+                    <div class="bg-white rounded-4 p-4 mb-4">
+                        <h5 class="text-primary mb-2" id="winnerAuctionTitle">Loading...</h5>
+                        <p class="text-muted mb-3" id="winnerMessage">Calculating results...</p>
+                        <div class="d-flex justify-content-center align-items-center gap-3">
+                            <div>
+                                <small class="text-muted d-block">Winning Bid</small>
+                                <h3 class="text-success fw-bold mb-0" id="winnerBidAmount">₹0</h3>
+                            </div>
+                            <div class="vr"></div>
+                            <div>
+                                <small class="text-muted d-block">Total Bids</small>
+                                <h3 class="text-primary fw-bold mb-0" id="winnerTotalBids">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <!-- ✅ UPDATED BUTTON -->
+                        <button type="button" class="btn btn-light btn-lg" onclick="window.goToMyActivity()">
+                            <i class="bi bi-trophy-fill me-2"></i> <span id="winnerActionText">View My Wins</span>
+                        </button>
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">&copy; 2026 KIIT Campus Auction Platform | Built by Rhitav Gangopadhyay</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auctions.js"></script>
+</body>
+</html>
