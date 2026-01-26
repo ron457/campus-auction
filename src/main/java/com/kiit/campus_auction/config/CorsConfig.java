@@ -11,7 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
                 .allowedOrigins(
-                    "https://starlit-pegasus-589186.netlify.app",  // ✅ Production Netlify
+                    "https://campus-auction-kiit.netlify.app/",  // ✅ Production Netlify
                     "http://localhost:5500",                        // ✅ Local dev
                     "http://127.0.0.1:5500"                        // ✅ Local dev alternative
                 )
