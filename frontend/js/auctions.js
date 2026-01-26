@@ -538,7 +538,7 @@ async function handleBidSubmit(e) {
             amount: amount
         };
         
-        const response = await fetch('http://localhost:8080/api/bids', {
+        const response = await fetch("https://campus-auction-production.up.railway.app/api/bids", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bidData)

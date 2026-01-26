@@ -226,7 +226,7 @@ async function deleteAuction(auctionId) {
     }
     
     try {
-        const response = await fetch(`http://localhost:8080/api/auctions/${auctionId}`, {
+        const response = await fetch(`https://campus-auction-production.up.railway.app/api/auctions/${auctionId}`, {
             method: 'DELETE'
         });
         
