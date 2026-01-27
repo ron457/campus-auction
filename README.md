@@ -3,13 +3,8 @@ Campus Auction Platform
 A full-stack web application enabling KIIT students to buy and sell campus items through real-time auctions with competitive bidding, automated winner selection, and email notifications.
 
 
-🚀 Live Demo
+**Try it now:** https://campus-auction-kiit.netlify.app/ 🚀
 
-**Try it now:** [Coming Soon - Deploying on Render]
-
-**Test Credentials:**
-- Email: `demo@kiit.ac.in`
-- Password: `Demo@123`
 
 > ⏳ Note: First load may take 30-60 seconds (free tier cold start)
 
