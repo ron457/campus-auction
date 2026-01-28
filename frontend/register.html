@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Navbar (Static for Register page) -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="index.html">🏛️ KIIT Auction</a>
@@ -27,22 +27,115 @@
                         <a class="nav-link" href="login.html">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="Register.html">Register</a>
+                        <a class="nav-link active" href="register.html">Register</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Registration Form (keep all your existing form code) -->
+    <!-- Registration Form -->
     <div class="container my-5">
-        <!-- ... your existing registration form ... -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Register for KIIT Auction</h2>
+                        
+                        <!-- Alert Container -->
+                        <div id="alertContainer"></div>
+                        
+                        <form id="registrationForm">
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">KIIT Email</label>
+                                <input type="email" class="form-control" id="email" 
+                                       placeholder="yourroll@kiit.ac.in" required>
+                                <small class="form-text text-muted">Must be a KIIT email (@kiit.ac.in)</small>
+                            </div>
+                            
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" 
+                                       minlength="6" required>
+                                <small class="form-text text-muted">Minimum 6 characters</small>
+                            </div>
+                            
+                            <!-- Phone -->
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" 
+                                       placeholder="10-digit mobile number" 
+                                       pattern="[0-9]{10}" required>
+                            </div>
+                            
+                            <!-- Hostel -->
+                            <div class="mb-3">
+                                <label for="hostel" class="form-label">Hostel</label>
+                                <input type="text" class="form-control" id="hostel" 
+                                       placeholder="e.g., KP-7, KP-12" required>
+                            </div>
+                            
+                            <!-- Batch -->
+                            <div class="mb-3">
+                                <label for="batch" class="form-label">Batch Year</label>
+                                <input type="text" class="form-control" id="batch" 
+                                       placeholder="e.g., 2022, 2023" required>
+                            </div>
+                            
+                            <!-- Branch -->
+                            <div class="mb-3">
+                                <label for="branch" class="form-label">Branch</label>
+                                <select class="form-select" id="branch" required>
+                                    <option value="">Select Branch</option>
+                                    <option value="CSE">Computer Science & Engineering</option>
+                                    <option value="IT">Information Technology</option>
+                                    <option value="ECE">Electronics & Communication</option>
+                                    <option value="EEE">Electrical & Electronics</option>
+                                    <option value="MECH">Mechanical Engineering</option>
+                                    <option value="CIVIL">Civil Engineering</option>
+                                    <option value="CHEM">Chemical Engineering</option>
+                                    <option value="BT">Biotechnology</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 mb-2" id="submitBtn">
+                                Register
+                            </button>
+                            
+                            <!-- Loading Button -->
+                            <button type="button" class="btn btn-primary w-100 mb-2" id="loadingBtn" 
+                                    style="display: none;" disabled>
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                Registering...
+                            </button>
+                        </form>
+                        
+                        <p class="text-center mt-3 mb-0">
+                            Already have an account? 
+                            <a href="login.html">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Footer Spacing -->
+    <div style="height: 50px;"></div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/register.js"></script>
-    <!-- ❌ Don't add navbar.js on register page -->
 </body>
 </html>
