@@ -18,4 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     // Spring generates: SELECT * FROM users WHERE hostel = ?
     java.util.List<User> findByHostel(String hostel);
+
+    Optional<User> findByPhone(String phone);
+
+    boolean existsByPhone(String phone);
 }
+
