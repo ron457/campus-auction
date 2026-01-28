@@ -3,6 +3,8 @@ package com.kiit.campus_auction.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -14,6 +16,7 @@ public class User {
     @Column(nullable = false)
     private String name;
     
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
     
